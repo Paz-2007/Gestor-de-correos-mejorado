@@ -6,18 +6,22 @@ import { Buscador } from './Buscador';
 import { BandejaEliminados } from './BandejaEliminados';
 import { Correo } from './Correo';
 import { IContacto } from './IContacto';
+import { IBuscador } from './IBuscador';
 
 
 // Administra los correos enviados
 export class GestorCorreos {
+
+    constructor(buscador: IBuscador = new Buscador()) {
+    this._buscador = buscador;
+    }
 
     private readonly _entradas = new Map<string, BandejaEntrada>();
     private readonly _enviados = new Map<string, BandejaEnviados>();
     private readonly _borradores = new Map<string, BandejaBorradores>();
     private readonly _eliminados = new Map<string, BandejaEliminados>();
 
-    private readonly _buscador = new Buscador();
-
+    private readonly _buscador: IBuscador;
     private getBandejaEntradaUsuario(email: string): BandejaEntrada {
         const emailNorm = email.trim().toLowerCase();
         if (!this._entradas.has(emailNorm)) {
