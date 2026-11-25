@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import { GestorCorreos } from '../src/GestorCorreos';
 import { Correo } from '../src/Correo';
@@ -7,6 +7,7 @@ import { ICorreo } from '../src/ICorreo';
 
 import { Buscador } from '../src/Buscador';
 
+import { IBuscador } from '../src/IBuscador';
 
 describe('GestorCorreos', () => {
 
@@ -412,6 +413,30 @@ describe('GestorCorreos', () => {
 
 
    
+});
+
+it('Debe utilizar el buscador inyectado para buscar correos', () => {
+  //Creamos los mocks y el escenario inicial
+    // Simulamos la función de búsqueda devolviendo un arreglo vacío por defecto
+    const buscarCorreosMock = vi.fn((): ICorreo[] => []);
+
+    // Creamos un objeto simulado (mock) que cumple con la interfaz IBuscador
+    const buscadorMock: IBuscador = {
+        buscarCorreos: buscarCorreosMock,
+        buscarEnEntrada: vi.fn((): ICorreo[] => [])
+    };
+
+    // Inyectamos el buscador simulado en la instancia que vamos a probar
+    const gestor = new GestorCorreos(buscadorMock);
+    const correos: ICorreo[] = [];
+
+    // Llamamos al método real que queremos testear
+    const resultado = gestor.buscarCorreos(correos, 'Examen');
+
+    //Comprobamos que el resultado y las llamadas sean correctas
+    expect(resultado).toEqual([]); // Verifica que devuelva lo que retornó el mock
+    expect(buscarCorreosMock).toHaveBeenCalledTimes(1); // Verifica que se llamó una sola vez
+    expect(buscarCorreosMock).toHaveBeenCalledWith(correos, 'Examen'); // Verifica los argumentos exactos
 });
 
 
