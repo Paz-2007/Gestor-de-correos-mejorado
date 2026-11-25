@@ -1,7 +1,8 @@
 import { ICorreo } from './ICorreo';
 import { BandejaEntrada } from './BandejaEntrada';
+import { IBuscador } from './IBuscador';
 
-export class Buscador {
+export class Buscador implements IBuscador {
 
     public buscarCorreos(correos: ICorreo[], texto: string): ICorreo[] {
 
