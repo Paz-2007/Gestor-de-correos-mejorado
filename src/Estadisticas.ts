@@ -25,4 +25,20 @@ export class Estadisticas {
             return conteo; //devuelve el diccionario actualizado para el siguiente correo
         }, new Map<string, number>()); //valor inicial: un diccionario vacio
     }
+
+
+    // Ordena los correos alfabéticamente según su asunto.
+    public ordenarPorAsunto(correos: ICorreo[]): ICorreo[] {
+        return [...correos].sort(
+            (correoA, correoB) =>
+                correoA.getAsunto().localeCompare(
+                    correoB.getAsunto(),
+                    'es',
+                    { sensitivity: 'base' }
+                )
+        );
+    }
+
+   
+
 }
