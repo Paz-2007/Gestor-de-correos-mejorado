@@ -29,14 +29,27 @@ export class Estadisticas {
 
     // Ordena los correos alfabéticamente según su asunto.
     public ordenarPorAsunto(correos: ICorreo[]): ICorreo[] {
-        return [...correos].sort(
-            (correoA, correoB) =>
-                correoA.getAsunto().localeCompare(
-                    correoB.getAsunto(),
-                    'es',
-                    { sensitivity: 'base' }
-                )
-        );
+    return [...correos].sort((correoA, correoB) => {
+        const asuntoA = correoA.getAsunto().toLowerCase();
+        const asuntoB = correoB.getAsunto().toLowerCase();
+
+        if (asuntoA < asuntoB) return -1;
+        if (asuntoA > asuntoB) return 1;
+        return 0;
+    });
+}
+
+    // Comprueba si existe al menos un correo de un remitente determinado.
+    public tieneCorreoDeRemitente(
+        correos: ICorreo[],
+        emailRemitente: string
+    ): boolean {
+        const email = emailRemitente.trim().toLowerCase();
+
+        return correos.some(
+            correo =>
+                correo.getRemitente().getEmail().toLowerCase() === email
+        ); // si hay devuelve true
     }
 
    
