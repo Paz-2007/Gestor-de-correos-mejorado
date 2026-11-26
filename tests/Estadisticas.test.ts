@@ -99,4 +99,30 @@ describe("RF-10: Procesamiento funcional y estadísticas", () => {
     });
 
 
+    it("ordena los correos alfabeticamente por asunto con sort", () => {
+    const ana = new Contacto('Ana', 'ana@mail.com');
+    const luis = new Contacto('Luis', 'luis@mail.com');
+
+    const correo1 = new Correo('Proyecto', 'Contenido 1', ana, [luis]);
+    const correo2 = new Correo('Aviso', 'Contenido 2', ana, [luis]);
+    const correo3 = new Correo('Reunion', 'Contenido 3', ana, [luis]);
+
+    const correos = [correo1, correo2, correo3];
+    const estadisticas = new Estadisticas();
+
+    const ordenados = estadisticas.ordenarPorAsunto(correos);
+
+    // comprobamos que los correos quedaron en orden alfabetico
+    expect(ordenados).toEqual([correo2, correo1, correo3]);
+
+    // comprobamos que la coleccion original no fue modificada
+    expect(correos).toEqual([correo1, correo2, correo3]);
+});
+
+it("devuelve una lista vacia al ordenar una coleccion vacia", () => {
+    const estadisticas = new Estadisticas();
+
+    expect(estadisticas.ordenarPorAsunto([])).toEqual([]);
+});
+
 });
