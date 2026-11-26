@@ -437,7 +437,7 @@ it('Debe utilizar el buscador inyectado para buscar correos', () => {
     //Comprobamos que el resultado y las llamadas sean correctas
     expect(resultado).toEqual([]); // Verifica que devuelva lo que retornó el mock
     expect(buscarCorreosMock).toHaveBeenCalledTimes(1); // Verifica que se llamó una sola vez
-    expect(buscarCorreosMock).toHaveBeenCalledWith(correos, 'Examen'); // Verifica los argumentos exactos
+    expect(buscarCorreosMock).toHaveBeenCalledWith(correos, 'Examen'); // Verifica que el mock haya recibido los argumentos que le pasamos al método de GestorCorreos
 });
 
 
