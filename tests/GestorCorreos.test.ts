@@ -415,21 +415,24 @@ describe('GestorCorreos', () => {
 
 it('Debe utilizar el buscador inyectado para buscar correos', () => {
   //Creamos los mocks y el escenario inicial
-    // Simulamos la función de búsqueda devolviendo un arreglo vacío por defecto
+  // Simulamos la función de búsqueda devolviendo un arreglo vacío por defecto
     const buscarCorreosMock = vi.fn((): ICorreo[] => []);
 
     // Creamos un objeto simulado (mock) que cumple con la interfaz IBuscador
     const buscadorMock: IBuscador = {
-        buscarCorreos: buscarCorreosMock,
-        buscarEnEntrada: vi.fn((): ICorreo[] => [])
+        buscarCorreos: buscarCorreosMock, //se le asigna a buscar correos la funcion anterior
+        buscarEnEntrada: vi.fn((): ICorreo[] => []) //creamos otro metodo que devuelve un arreglo vacio aunque no lo necesitemos
     };
 
     // Inyectamos el buscador simulado en la instancia que vamos a probar
+    // Creamos una instancia real de GestorCorreos, le pasamos nuestro buscadorMock
     const gestor = new GestorCorreos(buscadorMock);
-    const correos: ICorreo[] = [];
+
+    const correos: ICorreo[] = []; //creamos un arreglo de correos vacio ya que no necesitamos correos
 
     // Llamamos al método real que queremos testear
-    const resultado = gestor.buscarCorreos(correos, 'Examen');
+    const resultado = gestor.buscarCorreos(correos, 'Examen'); 
+    //como buscarCorreos está asociado a nuestro mock, se ejecuta la función simulada.
 
     //Comprobamos que el resultado y las llamadas sean correctas
     expect(resultado).toEqual([]); // Verifica que devuelva lo que retornó el mock
