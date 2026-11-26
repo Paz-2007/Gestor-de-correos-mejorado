@@ -125,4 +125,38 @@ it("devuelve una lista vacia al ordenar una coleccion vacia", () => {
     expect(estadisticas.ordenarPorAsunto([])).toEqual([]);
 });
 
+it("comprueba si existe un correo de determinado remitente con some", () => {
+    const gestor = new GestorCorreos();
+    const profe = new Contacto('Profe', 'profe@ucp.edu.ar');
+    const sol = new Contacto('Sol', 'sol@gmail.com');
+    const luis = new Contacto('Luis', 'luis@mail.com');
+
+    gestor.enviarCorreo(new Correo('Examen', 'Estudiar', profe, [luis]));
+    gestor.enviarCorreo(new Correo('Salida', 'Vamos al cine', sol, [luis]));
+
+    const estadisticas = new Estadisticas();
+    const correos = gestor.getEntrada('luis@mail.com');
+
+    // comprobamos que existe un correo de la profesora
+    expect(estadisticas.tieneCorreoDeRemitente(
+        correos,
+        'profe@ucp.edu.ar'
+    )).toBe(true);
+
+    // comprobamos que no existe un correo de otro remitente
+    expect(estadisticas.tieneCorreoDeRemitente(
+        correos,
+        'otro@mail.com'
+    )).toBe(false);
+});
+
+it("devuelve false cuando no hay correos para comprobar con some", () => {
+    const estadisticas = new Estadisticas();
+
+    expect(estadisticas.tieneCorreoDeRemitente(
+        [],
+        'profe@ucp.edu.ar'
+    )).toBe(false);
+});
+
 });
